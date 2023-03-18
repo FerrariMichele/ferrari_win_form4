@@ -1,0 +1,225 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ferrari_win_form3
+{
+    public partial class Form1 : Form
+    {
+        #region dichiarazioni
+        readonly string path;
+        #endregion
+        #region funzioni evento
+        public Form1()
+        {
+            InitializeComponent();
+            path = @"dati.csv";
+            if (!File.Exists(path)) 
+            { 
+                File.Create(path);
+            }
+            Visualizza(path);
+        }
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            int pos = Ricerca(textBoxNome.Text, path);
+            if (pos == -1)
+            {
+                Aggiunta(textBoxNome.Text, float.Parse(textBoxPrezzo.Text), path);
+            }
+            else
+            {
+                AumentaNumero(pos, path);
+            }
+            listView1.Clear();
+            Visualizza(path);
+            PulisciTextBox();
+        }
+        private void buttonFind_Click(object sender, EventArgs e)
+        {
+            int pos = Ricerca(textBoxNome.Text, path);
+            if (pos == -1)
+            {
+                MessageBox.Show("Elemento non presente!");
+            }
+            else
+            {
+                MessageBox.Show($"Elemento {textBoxNome.Text} trovato in posizione {pos}");
+            }
+            PulisciTextBox();
+        }
+        private void buttonMod_Click(object sender, EventArgs e)
+        {
+            int pos = Ricerca(textBoxNome.Text, path);
+            if (pos == -1)
+            {
+                MessageBox.Show("Elemento non presente!");
+            }
+            else
+            {
+                Modifica(pos, textBoxNewName.Text, float.Parse(textBoxNewPrice.Text), path);
+            }
+            listView1.Clear();
+            Visualizza(path);
+            PulisciTextBox();
+        }
+        private void buttonDel_Click(object sender, EventArgs e)
+        {
+            int pos = Ricerca(textBoxNome.Text, path);
+            if (pos == -1)
+            {
+                MessageBox.Show("Elemento non presente!");
+            }
+            else
+            {
+                Cancellazione(pos, path);
+            }
+            listView1.Clear();
+            Visualizza(path);
+            PulisciTextBox();
+        }
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            var savefile = MessageBox.Show("Mantenere la lista?", "Salvataggio lista", MessageBoxButtons.YesNo);
+            if (savefile == DialogResult.No)
+            {
+                File.Delete(path);
+            }
+            Application.Exit();
+        }
+        #endregion
+        #region funzioni di servizio
+        public void Aggiunta(string nome, float prezzo, string filePath) 
+        {
+            using (StreamWriter sw = new StreamWriter(filePath, append: true))
+            {
+                sw.WriteLine($"{nome};{prezzo.ToString("0.00")};1");
+            }
+        }
+        public int Ricerca(string nome, string filePath)
+        {
+            int posizione = -1;
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                int riga = 0;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    riga++;
+                    string[] dati = s.Split(';');
+                    if (dati[0] == nome)
+                    {
+                        posizione = riga;
+                        break;
+                    }
+                }
+            }
+            return posizione;
+        }
+        public void Modifica(int posizione, string nome, float prezzo, string filePath)
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
+                {
+                    int riga = 0;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        riga++;
+                        string[] dati = s.Split(';');
+                        if (riga != posizione)
+                        {
+                            sw.WriteLine(s);
+                        }
+                        else
+                        {
+                            sw.WriteLine($"{nome};{prezzo};{dati[2]}");
+                        }
+                    }
+                }
+            }
+            File.Delete(filePath);
+            File.Move("tlist.csv", filePath);
+            File.Delete("tlist.csv");
+        }
+        public void Cancellazione(int posizione, string filePath)
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
+                {
+                    int riga = 0;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        riga++;
+                        if (riga != posizione)
+                        {
+                            sw.WriteLine(s);
+                        }
+                    }
+                }
+            }
+            File.Delete(filePath);
+            File.Move("tlist.csv", filePath);
+            File.Delete("tlist.csv");
+        }
+        public void AumentaNumero(int posizione, string filePath)
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
+                {
+                    int riga = 0;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        riga++;
+                        string[] dati = s.Split(';');
+                        if (riga != posizione)
+                        {
+                            sw.WriteLine(s);
+                        }
+                        else
+                        {
+                            int numero = int.Parse(dati[2]);
+                            numero++;
+                            sw.WriteLine($"{dati[0]};{dati[1]};{numero.ToString()}");
+                        }
+                    }
+                }
+            }
+            File.Delete(filePath);
+            File.Move("tlist.csv", filePath);
+            File.Delete("tlist.csv");
+        }
+        public void Visualizza(string filePath) 
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    string[] dati = s.Split(';');
+                    listView1.Items.Add($"Nome: {dati[0]}; Prezzo: {dati[1]} €; Quantità: {dati[2]};");
+                }
+            }
+        }
+        public void PulisciTextBox()
+        {
+            textBoxNome.Text = string.Empty;
+            textBoxPrezzo.Text = string.Empty;
+            textBoxNewName.Text = string.Empty;
+            textBoxNewPrice.Text = string.Empty;
+        }
+        #endregion
+    }
+}
