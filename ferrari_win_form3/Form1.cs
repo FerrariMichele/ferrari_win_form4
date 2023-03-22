@@ -141,7 +141,7 @@ namespace ferrari_win_form3
                         }
                         else
                         {
-                            sw.WriteLine($"{nome};{prezzo};{dati[2]}");
+                            sw.WriteLine($"{nome};{prezzo.ToString("0.00")};{dati[2]}");
                         }
                     }
                 }
