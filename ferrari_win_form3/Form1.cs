@@ -36,7 +36,7 @@ namespace ferrari_win_form3
             }
             else
             {
-                AumentaNumero(pos, path);
+                AumentaNumero(textBoxNome.Text, path);
             }
             listView1.Clear();
             Visualizza(path);
@@ -79,7 +79,7 @@ namespace ferrari_win_form3
             }
             else
             {
-                Cancellazione(pos, path);
+                Cancellazione(textBoxNome.Text, path);
             }
             listView1.Clear();
             Visualizza(path);
@@ -100,7 +100,7 @@ namespace ferrari_win_form3
         {
             using (StreamWriter sw = new StreamWriter(filePath, append: true))
             {
-                sw.WriteLine($"{nome};{prezzo.ToString("0.00")};1");
+                sw.WriteLine($"{nome};{prezzo.ToString("0.00")};1;0");
             }
         }
         public int Ricerca(string nome, string filePath)
@@ -112,12 +112,15 @@ namespace ferrari_win_form3
                 int riga = 0;
                 while ((s = sr.ReadLine()) != null)
                 {
-                    riga++;
                     string[] dati = s.Split(';');
-                    if (dati[0] == nome)
+                    if(dati[3] == "0")
                     {
-                        posizione = riga;
-                        break;
+                        riga++;
+                        if (dati[0] == nome)
+                        {
+                            posizione = riga;
+                            break;
+                        }
                     }
                 }
             }
@@ -133,15 +136,43 @@ namespace ferrari_win_form3
                     int riga = 0;
                     while ((s = sr.ReadLine()) != null)
                     {
-                        riga++;
                         string[] dati = s.Split(';');
-                        if (riga != posizione)
+                        if (dati[3] == "0")
+                        {
+                            riga++;
+                            if (riga != posizione)
+                            {
+                                sw.WriteLine(s);
+                            }
+                            else
+                            {
+                                sw.WriteLine($"{nome};{prezzo.ToString("0.00")};{dati[2]}");
+                            }
+                        }
+                    }
+                }
+            }
+            File.Delete(filePath);
+            File.Move("tlist.csv", filePath);
+            File.Delete("tlist.csv");
+        }
+        public void Cancellazione(string nome, string filePath)
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
+                {
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        string[] dati = s.Split(';');
+                        if (nome != dati[0])
                         {
                             sw.WriteLine(s);
                         }
                         else
                         {
-                            sw.WriteLine($"{nome};{prezzo.ToString("0.00")};{dati[2]}");
+                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};1");
                         }
                     }
                 }
@@ -150,41 +181,17 @@ namespace ferrari_win_form3
             File.Move("tlist.csv", filePath);
             File.Delete("tlist.csv");
         }
-        public void Cancellazione(int posizione, string filePath)
+        public void AumentaNumero(string nome, string filePath)
         {
             using (StreamReader sr = File.OpenText(filePath))
             {
                 string s;
                 using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
                 {
-                    int riga = 0;
                     while ((s = sr.ReadLine()) != null)
                     {
-                        riga++;
-                        if (riga != posizione)
-                        {
-                            sw.WriteLine(s);
-                        }
-                    }
-                }
-            }
-            File.Delete(filePath);
-            File.Move("tlist.csv", filePath);
-            File.Delete("tlist.csv");
-        }
-        public void AumentaNumero(int posizione, string filePath)
-        {
-            using (StreamReader sr = File.OpenText(filePath))
-            {
-                string s;
-                using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
-                {
-                    int riga = 0;
-                    while ((s = sr.ReadLine()) != null)
-                    {
-                        riga++;
                         string[] dati = s.Split(';');
-                        if (riga != posizione)
+                        if (nome != dati[0])
                         {
                             sw.WriteLine(s);
                         }
@@ -192,7 +199,7 @@ namespace ferrari_win_form3
                         {
                             int numero = int.Parse(dati[2]);
                             numero++;
-                            sw.WriteLine($"{dati[0]};{dati[1]};{numero.ToString()}");
+                            sw.WriteLine($"{dati[0]};{dati[1]};{numero};0");
                         }
                     }
                 }
@@ -209,7 +216,10 @@ namespace ferrari_win_form3
                 while ((s = sr.ReadLine()) != null)
                 {
                     string[] dati = s.Split(';');
-                    listView1.Items.Add($"Nome: {dati[0]}; Prezzo: {dati[1]} €; Quantità: {dati[2]};");
+                    if (dati[3] == "0")
+                    {
+                        listView1.Items.Add($"Nome: {dati[0]}; Prezzo: {dati[1]} €; Quantità: {dati[2]};");
+                    }
                 }
             }
         }
