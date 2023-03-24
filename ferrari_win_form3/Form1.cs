@@ -262,9 +262,9 @@ namespace ferrari_win_form3
                     string[] dati = s.Split(';');
                     if (dati[3] == "0")
                     {
-                        listView1.Items[0].SubItems.Add(dati[0]);
-                        listView1.Items[1].SubItems.Add(dati[1]);
-                        listView1.Items[2].SubItems.Add(dati[2]);
+                        listView1.Items[1].SubItems.Add(dati[0]);
+                        listView1.Items[2].SubItems.Add(dati[1]);
+                        listView1.Items[3].SubItems.Add(dati[2]);
                     }
                 }
             }
