@@ -252,12 +252,22 @@ namespace ferrari_win_form3
             using (StreamReader sr = File.OpenText(filePath))
             {
                 string s;
+                listView1.View = View.Details;
+                listView1.Columns.Add("Nome", 108, HorizontalAlignment.Left);
+                listView1.Columns.Add("Prezzo", 108, HorizontalAlignment.Left);
+                listView1.Columns.Add("Quantità", 104, HorizontalAlignment.Left);
+                listView1.GridLines = true;
                 while ((s = sr.ReadLine()) != null)
                 {
                     string[] dati = s.Split(';');
                     if (dati[3] == "0")
                     {
-                        listView1.Items.Add($"Nome: {dati[0]}; Prezzo: {dati[1]}; Quantità: {dati[2]};");
+                        //listView1.Items.Add($"Nome: {dati[0]}; Prezzo: {dati[1]}; Quantità: {dati[2]};");
+                        ListViewItem newItem = new ListViewItem();
+                        newItem.Text = dati[0];
+                        newItem.SubItems.Add(dati[1]);
+                        newItem.SubItems.Add(dati[2]);
+                        listView1.Items.Add(newItem);
                     }
                 }
             }
