@@ -25,6 +25,11 @@ namespace ferrari_win_form3
             { 
                 File.Create(path);
             }
+            listView1.View = View.Details;
+            listView1.Columns.Add("Nome", 108, HorizontalAlignment.Left);
+            listView1.Columns.Add("Prezzo", 108, HorizontalAlignment.Left);
+            listView1.Columns.Add("Quantità", 104, HorizontalAlignment.Left);
+            listView1.GridLines = true;
             Visualizza(path);
         }
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -257,7 +262,9 @@ namespace ferrari_win_form3
                     string[] dati = s.Split(';');
                     if (dati[3] == "0")
                     {
-                        listView1.Items.Add($"Nome: {dati[0]}; Prezzo: {dati[1]} €; Quantità: {dati[2]};");
+                        listView1.Items[0].SubItems.Add(dati[0]);
+                        listView1.Items[1].SubItems.Add(dati[1]);
+                        listView1.Items[2].SubItems.Add(dati[2]);
                     }
                 }
             }

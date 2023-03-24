@@ -58,7 +58,7 @@
             this.listView1.HoverSelection = true;
             this.listView1.Location = new System.Drawing.Point(465, 12);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(323, 426);
+            this.listView1.Size = new System.Drawing.Size(324, 426);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
