@@ -96,7 +96,7 @@ namespace ferrari_win_form3
         }
         private void buttonRec_Click(object sender, EventArgs e)
         {
-            int pos = Ricerca(textBoxNome.Text, path);
+            int pos = RicercaR(textBoxNome.Text, path);
             if (pos == -1)
             {
                 MessageBox.Show("Elemento non presente!");
@@ -140,6 +140,26 @@ namespace ferrari_win_form3
                             posizione = riga;
                             break;
                         }
+                    }
+                }
+            }
+            return posizione;
+        }
+        public int RicercaR(string nome, string filePath)
+        {
+            int posizione = -1;
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                int riga = 0;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    string[] dati = s.Split(';');
+                    riga++;
+                    if (dati[0] == nome)
+                    {
+                        posizione = riga;
+                        break;
                     }
                 }
             }
