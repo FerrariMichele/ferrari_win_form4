@@ -279,7 +279,7 @@ namespace ferrari_win_form3
                     while ((s = sr.ReadLine()) != null)
                     {
                         string[] dati = s.Split(';');
-                        if (dati[3] != "0")
+                        if (dati[3] == "0")
                         {
                                 sw.WriteLine(s);
                         }
