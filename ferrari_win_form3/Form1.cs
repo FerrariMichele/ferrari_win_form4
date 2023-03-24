@@ -94,6 +94,25 @@ namespace ferrari_win_form3
             }
             Application.Exit();
         }
+        private void buttonRec_Click(object sender, EventArgs e)
+        {
+            int pos = Ricerca(textBoxNome.Text, path);
+            if (pos == -1)
+            {
+                MessageBox.Show("Elemento non presente!");
+            }
+            else
+            {
+                Recupero(textBoxNome.Text, path);
+            }
+            listView1.Clear();
+            Visualizza(path);
+            PulisciTextBox();
+        }
+        private void buttonComp_Click(object sender, EventArgs e)
+        {
+            Ricompattazione(path);
+        }
         #endregion
         #region funzioni di servizio
         public void Aggiunta(string nome, float prezzo, string filePath) 
@@ -229,6 +248,52 @@ namespace ferrari_win_form3
             textBoxPrezzo.Text = string.Empty;
             textBoxNewName.Text = string.Empty;
             textBoxNewPrice.Text = string.Empty;
+        }
+        public void Ricompattazione(string filePath) 
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
+                {
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        string[] dati = s.Split(';');
+                        if (dati[3] != "0")
+                        {
+                                sw.WriteLine(s);
+                        }
+                    }
+                }
+            }
+            File.Delete(filePath);
+            File.Move("tlist.csv", filePath);
+            File.Delete("tlist.csv");
+        }
+        public void Recupero(string nome, string filePath)
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string s;
+                using (StreamWriter sw = new StreamWriter("tlist.csv", append: true))
+                {
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        string[] dati = s.Split(';');
+                        if (nome != dati[0])
+                        {
+                            sw.WriteLine(s);
+                        }
+                        else
+                        {
+                            sw.WriteLine($"{dati[0]};{dati[1]};{dati[2]};0");
+                        }
+                    }
+                }
+            }
+            File.Delete(filePath);
+            File.Move("tlist.csv", filePath);
+            File.Delete("tlist.csv");
         }
         #endregion
     }

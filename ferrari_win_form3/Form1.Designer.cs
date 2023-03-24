@@ -43,6 +43,8 @@
             this.labelNewName = new System.Windows.Forms.Label();
             this.textBoxNewPrice = new System.Windows.Forms.TextBox();
             this.textBoxNewName = new System.Windows.Forms.TextBox();
+            this.buttonComp = new System.Windows.Forms.Button();
+            this.buttonRec = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listView1
@@ -173,7 +175,7 @@
             this.labelNewPrice.AutoSize = true;
             this.labelNewPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelNewPrice.ForeColor = System.Drawing.Color.Black;
-            this.labelNewPrice.Location = new System.Drawing.Point(229, 184);
+            this.labelNewPrice.Location = new System.Drawing.Point(336, 196);
             this.labelNewPrice.Name = "labelNewPrice";
             this.labelNewPrice.Size = new System.Drawing.Size(111, 20);
             this.labelNewPrice.TabIndex = 15;
@@ -184,7 +186,7 @@
             this.labelNewName.AutoSize = true;
             this.labelNewName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelNewName.ForeColor = System.Drawing.Color.Black;
-            this.labelNewName.Location = new System.Drawing.Point(15, 184);
+            this.labelNewName.Location = new System.Drawing.Point(230, 196);
             this.labelNewName.Name = "labelNewName";
             this.labelNewName.Size = new System.Drawing.Size(104, 20);
             this.labelNewName.TabIndex = 14;
@@ -192,17 +194,41 @@
             // 
             // textBoxNewPrice
             // 
-            this.textBoxNewPrice.Location = new System.Drawing.Point(233, 211);
+            this.textBoxNewPrice.Location = new System.Drawing.Point(340, 223);
             this.textBoxNewPrice.Name = "textBoxNewPrice";
             this.textBoxNewPrice.Size = new System.Drawing.Size(101, 20);
             this.textBoxNewPrice.TabIndex = 13;
             // 
             // textBoxNewName
             // 
-            this.textBoxNewName.Location = new System.Drawing.Point(19, 211);
+            this.textBoxNewName.Location = new System.Drawing.Point(234, 223);
             this.textBoxNewName.Name = "textBoxNewName";
-            this.textBoxNewName.Size = new System.Drawing.Size(101, 20);
+            this.textBoxNewName.Size = new System.Drawing.Size(100, 20);
             this.textBoxNewName.TabIndex = 12;
+            // 
+            // buttonComp
+            // 
+            this.buttonComp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonComp.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.buttonComp.Location = new System.Drawing.Point(126, 213);
+            this.buttonComp.Name = "buttonComp";
+            this.buttonComp.Size = new System.Drawing.Size(101, 30);
+            this.buttonComp.TabIndex = 16;
+            this.buttonComp.Text = "Ricompatta";
+            this.buttonComp.UseVisualStyleBackColor = true;
+            this.buttonComp.Click += new System.EventHandler(this.buttonComp_Click);
+            // 
+            // buttonRec
+            // 
+            this.buttonRec.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRec.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.buttonRec.Location = new System.Drawing.Point(19, 213);
+            this.buttonRec.Name = "buttonRec";
+            this.buttonRec.Size = new System.Drawing.Size(101, 30);
+            this.buttonRec.TabIndex = 17;
+            this.buttonRec.Text = "Recupera";
+            this.buttonRec.UseVisualStyleBackColor = true;
+            this.buttonRec.Click += new System.EventHandler(this.buttonRec_Click);
             // 
             // Form1
             // 
@@ -210,6 +236,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Orange;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonRec);
+            this.Controls.Add(this.buttonComp);
             this.Controls.Add(this.labelNewPrice);
             this.Controls.Add(this.labelNewName);
             this.Controls.Add(this.textBoxNewPrice);
@@ -249,6 +277,8 @@
         private System.Windows.Forms.Label labelNewName;
         private System.Windows.Forms.TextBox textBoxNewPrice;
         private System.Windows.Forms.TextBox textBoxNewName;
+        private System.Windows.Forms.Button buttonComp;
+        private System.Windows.Forms.Button buttonRec;
     }
 }
 
